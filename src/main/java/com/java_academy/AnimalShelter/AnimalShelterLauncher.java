@@ -3,6 +3,9 @@ package com.java_academy.AnimalShelter;
 import com.java_academy.AnimalShelter.Exceptions.AnimalShelterFullException;
 import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,36 +28,45 @@ public class AnimalShelterLauncher {
             logger.error(e.getMessage(), e);
         }
     }
-    public void startAnimalShelter() {
+
+    private void startAnimalShelter() {
         System.out.println("Welcome to animal shelter!");
-        List<Animal> animals = readAnimalsFromFile();
+        //get animals from file
+        ClassLoader classLoader = getClass().getClassLoader();
+        String path = classLoader.getResource("list_of_animals").getPath();
+        List<Animal> animals = readAnimalsFromFile(path);
+        //accept animals to shelter and print animal shelter state
         acceptAnimalsToShelter(animals);
         printAnimalsList();
         printFreePlacesNo();
     }
 
-    public List<Animal> readAnimalsFromFile() {
-        //TODO change to read from file
+    List<Animal> readAnimalsFromFile(String filePath) {
         List<Animal> animals = new LinkedList<>();
-        animals.add(new Animal("Baki"));
-        animals.add(new Animal("Pola"));
-        animals.add(new Animal("Rudolf"));
-        animals.add(new Animal("Fruczak gołąbek"));
-        animals.add(new Animal("Rzęsorek rzeczek"));
-        animals.add(new Animal("Balto"));
-        animals.add(new Animal("Chester"));
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null){
+                animals.add(new Animal(line));
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
         return animals;
     }
 
-    public void acceptAnimalsToShelter(List<Animal> animals) {
-        animals.forEach(animalShelter::acceptAnimal);
+    private void acceptAnimalsToShelter(List<Animal> animals) {
+        try{
+            animals.forEach(animalShelter::acceptAnimal);
+        } catch (AnimalShelterFullException e){
+            logger.error(e.getMessage(), e);
+        }
     }
 
-    public void printAnimalsList() {
+    private void printAnimalsList() {
         animalShelter.printAnimalsList();
     }
 
-    public void printFreePlacesNo() {
+    private void printFreePlacesNo() {
         animalShelter.printFreePlacesNo();
     }
 }

@@ -17,7 +17,7 @@ public class AnimalShelter {
         animals = new LinkedList<>();
     }
 
-    public void acceptAnimal(Animal animal) throws AnimalShelterFullException {
+    public void acceptAnimal(Animal animal) {
         if (isShelterFull()) {
             throw new AnimalShelterFullException("Animal shelter is already full!");
         }

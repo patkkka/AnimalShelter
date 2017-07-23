@@ -6,8 +6,10 @@ import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -34,9 +36,7 @@ public class AnimalShelterTest {
     @Test
     public void testCalculateFreePlacesNoWithSomeAnimalsInsideShelter() {
         //given
-        List<Animal> animals = new LinkedList<>();
-        animals.add(new Animal("Baki"));
-        animals.add(new Animal("Mruczek"));
+        List<Animal> animals = createAnimalList(new String[]{"Baki","Mruczek"});
         //when
         animals.forEach(animalShelter::acceptAnimal);
         int freePlacesNo = animalShelter.calculateFreePlacesNo();
@@ -58,11 +58,7 @@ public class AnimalShelterTest {
     @Test(expectedExceptions = AnimalShelterFullException.class)
     public void testAcceptAnimalWhenShelterFull() {
         //given
-        List<Animal> animals = new LinkedList<>();
-        animals.add(new Animal("Baki"));
-        animals.add(new Animal("Mruczek"));
-        animals.add(new Animal("Pola"));
-        animals.add(new Animal("Rudolf"));
+        List<Animal> animals = createAnimalList(new String[]{"Baki","Pola","Rudolf","Futrzak"});
         //when
         //add 4 animals when shelter capacity is 3
         animals.forEach(animalShelter::acceptAnimal);
@@ -72,10 +68,7 @@ public class AnimalShelterTest {
     @Test
     public void testPrintAnimals() {
         //given
-        List<Animal> animals = new LinkedList<>();
-        animals.add(new Animal("Baki"));
-        animals.add(new Animal("Pola"));
-        animals.add(new Animal("Rudolf"));
+        List<Animal> animals = createAnimalList(new String[]{"Baki","Pola","Rudolf"});
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         //when
@@ -92,9 +85,7 @@ public class AnimalShelterTest {
     @Test
     public void testPrintFreePlacesNo() {
         //given
-        List<Animal> animals = new LinkedList<>();
-        animals.add(new Animal("Baki"));
-        animals.add(new Animal("Mruczek"));
+        List<Animal> animals = createAnimalList(new String[]{"Baki","Mruczek"});
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         //when
@@ -105,5 +96,13 @@ public class AnimalShelterTest {
                 "Number of free places in animal shelter: %d\n", freePlacesNo);
         //then
         assertEquals(outContent.toString(), expectedOutput, "Wrong free places number printing");
+    }
+
+    public List<Animal> createAnimalList (String[] names){
+        List<Animal> animals = Arrays
+                                    .stream(names)
+                                    .map(Animal::new)
+                                    .collect(Collectors.toList());
+        return animals;
     }
 }
