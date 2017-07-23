@@ -5,16 +5,16 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class LaunchingAnimalShelterTest {
+public class AnimalShelterLauncherTest {
     @Test
-    public void testLaunchingAnimalShelterWithGivenCapacity() {
+    public void testAnimalShelterLauncherWithGivenCapacity() {
         //given
-        int shelterCapacity = 3;
+        int shelterCapacity = 10;
         String[] mainArgs = new String[1];
         mainArgs[0] = String.valueOf(shelterCapacity);
         //when
-        Main.main(mainArgs);
+        AnimalShelterLauncher.main(mainArgs);
         //then
-        assertEquals(Main.animalShelter.capacity, shelterCapacity);
+        assertEquals(AnimalShelterLauncher.launcher.animalShelter.capacity, shelterCapacity);
     }
 }

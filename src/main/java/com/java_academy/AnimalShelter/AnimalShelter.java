@@ -7,12 +7,13 @@ import java.util.List;
 
 public class AnimalShelter {
     final int capacity;
-    private int freePlacesNo;
-    private List<Animal> animals;
+    List<Animal> animals;
 
     public AnimalShelter(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Animal shelter capacity cannot be less or equal to 0");
+        }
         this.capacity = capacity;
-        this.freePlacesNo = capacity;
         animals = new LinkedList<>();
     }
 
@@ -29,5 +30,13 @@ public class AnimalShelter {
 
     private boolean isShelterFull() {
         return (calculateFreePlacesNo() <= 0);
+    }
+
+    public void printAnimalsList() {
+        new AnimalShelterStatePrinter().printAnimalsInShelter(this.animals);
+    }
+
+    public void printFreePlacesNo() {
+        new AnimalShelterStatePrinter().printFreePlacesNoInShelter(calculateFreePlacesNo());
     }
 }
