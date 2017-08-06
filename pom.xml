@@ -5,7 +5,7 @@
     <artifactId>AnimalShelter</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>AnimalShelter</name>
+    <name>Animal shelter</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -62,6 +62,9 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -145,9 +148,6 @@
                         <requireJavaVersion>
                             <version>${java.version}</version>
                         </requireJavaVersion>
-                        <requireOS>
-                            <family>unix</family>
-                        </requireOS>
                         <dependencyConvergence>
                             <uniqueVersions>true</uniqueVersions>
                         </dependencyConvergence>

@@ -1,4 +1,4 @@
-package com.java_academy.AnimalShelter;
+package com.javaacademy.animalshelter;
 
 public class Animal {
     private final String name;

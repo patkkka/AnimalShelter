@@ -1,4 +1,4 @@
-package com.java_academy.AnimalShelter;
+package com.javaacademy.animalshelter;
 
 import java.util.List;
 

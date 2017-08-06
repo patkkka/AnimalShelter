@@ -1,7 +1,6 @@
-package com.java_academy.AnimalShelter.Exceptions;
+package com.javaacademy.animalshelter.exceptions;
 
 public class AnimalShelterFullException extends RuntimeException {
-    //should be RuntimeException or Exception?
 
     public AnimalShelterFullException(String message) {
         super(message);

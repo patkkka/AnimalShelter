@@ -1,5 +1,6 @@
-package com.java_academy.AnimalShelter;
+package com.javaacademy.animalshelter;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -9,22 +10,30 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-@Test
 public class AnimalShelterLauncherTest {
     final int animalShelterCapacity = 10;
-    @Test
-    public void testAnimalShelterLauncherWithGivenCapacity() {
+
+    @DataProvider
+    public Object[][] shelterCapacityForLauncher() {
+        return new Object[][] {
+                {1},
+                {10},
+        };
+    }
+
+    @Test(dataProvider = "shelterCapacityForLauncher")
+    public void shouldLaunchAnimalShelterWithGivenCapacity(int capacity) {
         //given
         String[] mainArgs = new String[1];
-        mainArgs[0] = String.valueOf(animalShelterCapacity);
+        mainArgs[0] = String.valueOf(capacity);
         //when
         AnimalShelterLauncher.main(mainArgs);
         //then
-        assertEquals(AnimalShelterLauncher.launcher.animalShelter.capacity, animalShelterCapacity);
+        assertEquals(AnimalShelterLauncher.launcher.animalShelter.capacity, capacity);
     }
 
     @Test
-    public void testReadAnimalsFromFile() {
+    public void shouldReadAnimalsFromFile() {
         //given
         AnimalShelter animalShelter = new AnimalShelter(animalShelterCapacity);
         AnimalShelterLauncher launcher = new AnimalShelterLauncher(animalShelter);
@@ -41,7 +50,7 @@ public class AnimalShelterLauncherTest {
     }
 
     @Test
-    public void testReadAnimalsFromEmptyFile() {
+    public void shouldReadAnimalsFromEmptyFile() {
         //given
         AnimalShelter animalShelter = new AnimalShelter(animalShelterCapacity);
         AnimalShelterLauncher launcher = new AnimalShelterLauncher(animalShelter);
@@ -62,7 +71,7 @@ public class AnimalShelterLauncherTest {
         System.setOut(new PrintStream(outContent));
         //when
         AnimalShelterLauncher.main(mainArgs);
-        String expectedOutput  = "Welcome to animal shelter!\n" +
+        String expectedOutput = "Welcome to animal shelter!\n" +
                 "Animals in shelter:\n" +
                 "Baki\n" +
                 "Pola\n" +

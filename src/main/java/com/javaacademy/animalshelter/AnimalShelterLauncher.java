@@ -1,6 +1,6 @@
-package com.java_academy.AnimalShelter;
+package com.javaacademy.animalshelter;
 
-import com.java_academy.AnimalShelter.Exceptions.AnimalShelterFullException;
+import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -45,7 +45,7 @@ public class AnimalShelterLauncher {
         List<Animal> animals = new LinkedList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            while ((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 animals.add(new Animal(line));
             }
         } catch (IOException e) {
@@ -55,9 +55,9 @@ public class AnimalShelterLauncher {
     }
 
     private void acceptAnimalsToShelter(List<Animal> animals) {
-        try{
+        try {
             animals.forEach(animalShelter::acceptAnimal);
-        } catch (AnimalShelterFullException e){
+        } catch (AnimalShelterFullException e) {
             logger.error(e.getMessage(), e);
         }
     }

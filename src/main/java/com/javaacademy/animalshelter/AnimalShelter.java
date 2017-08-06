@@ -1,6 +1,6 @@
-package com.java_academy.AnimalShelter;
+package com.javaacademy.animalshelter;
 
-import com.java_academy.AnimalShelter.Exceptions.AnimalShelterFullException;
+import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,7 +1,7 @@
 # About
 
 Simple Animal Shelter application, which takes argument for shelter capacity and accepts animals from file.
-It is not possible to accept more animals than capacity of shelter is.
+It is not possible to accept more animals than shelter capacity.
 All exceptions are logged to file.
 
 # How to run the program?
