@@ -4,8 +4,6 @@ import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,39 +59,6 @@ public class AnimalShelterTest {
         //add 4 animals when shelter capacity is 3
         animals.forEach(animalShelter::acceptAnimal);
         //then
-    }
-
-    @Test
-    public void testPrintAnimals() {
-        //given
-        List<Animal> animals = createAnimalList(new String[]{"Baki", "Pola", "Rudolf"});
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        //when
-        animals.forEach(animalShelter::acceptAnimal);
-        animalShelter.printAnimalsList();
-        String expectedOutput = "Animals in shelter:\n" +
-                "Baki\n" +
-                "Pola\n" +
-                "Rudolf\n";
-        //then
-        assertEquals(outContent.toString(), expectedOutput, "Wrong animals list printing");
-    }
-
-    @Test
-    public void testPrintFreePlacesNo() {
-        //given
-        List<Animal> animals = createAnimalList(new String[]{"Baki", "Mruczek"});
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        //when
-        animals.forEach(animalShelter::acceptAnimal);
-        animalShelter.printFreePlacesNo();
-        int freePlacesNo = animalShelter.calculateFreePlacesNo();
-        String expectedOutput = String.format(
-                "Number of free places in animal shelter: %d\n", freePlacesNo);
-        //then
-        assertEquals(outContent.toString(), expectedOutput, "Wrong free places number printing");
     }
 
     public List<Animal> createAnimalList(String[] names) {

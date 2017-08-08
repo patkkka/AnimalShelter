@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AnimalShelterLauncher {
-    static AnimalShelterLauncher launcher;
     AnimalShelter animalShelter;
     final static Logger logger = Logger.getLogger(AnimalShelterLauncher.class);
 
@@ -22,9 +21,9 @@ public class AnimalShelterLauncher {
         try {
             int shelterCapacity = Integer.parseInt(args[0]);
             AnimalShelter animalShelter = new AnimalShelter(shelterCapacity);
-            launcher = new AnimalShelterLauncher(animalShelter);
+            AnimalShelterLauncher launcher = new AnimalShelterLauncher(animalShelter);
             launcher.startAnimalShelter();
-        } catch (Exception e) {
+        } catch (AnimalShelterFullException e) {
             logger.error(e.getMessage(), e);
         }
     }
