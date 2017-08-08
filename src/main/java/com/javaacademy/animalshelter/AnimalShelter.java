@@ -1,6 +1,7 @@
 package com.javaacademy.animalshelter;
 
 import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
+import com.javaacademy.animalshelter.io.AnimalShelterStatePrinter;
 
 import java.util.LinkedList;
 import java.util.List;

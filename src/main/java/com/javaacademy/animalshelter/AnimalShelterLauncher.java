@@ -1,12 +1,11 @@
 package com.javaacademy.animalshelter;
 
 import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
+import com.javaacademy.animalshelter.io.AnimalListReader;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.LinkedList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class AnimalShelterLauncher {
@@ -20,37 +19,23 @@ public class AnimalShelterLauncher {
     public static void main(String[] args) {
         try {
             int shelterCapacity = Integer.parseInt(args[0]);
+            Path animalsListPath = Paths.get(args[1]);
             AnimalShelter animalShelter = new AnimalShelter(shelterCapacity);
             AnimalShelterLauncher launcher = new AnimalShelterLauncher(animalShelter);
-            launcher.startAnimalShelter();
+            launcher.startAnimalShelter(animalsListPath);
         } catch (AnimalShelterFullException e) {
             logger.error(e.getMessage(), e);
         }
     }
 
-    private void startAnimalShelter() {
+    private void startAnimalShelter(Path animalsListPath) {
         System.out.println("Welcome to animal shelter!");
         //get animals from file
-        ClassLoader classLoader = getClass().getClassLoader();
-        String path = classLoader.getResource("list_of_animals").getPath();
-        List<Animal> animals = readAnimalsFromFile(path);
+        List<Animal> animals = AnimalListReader.readAnimalsFromFile(animalsListPath);
         //accept animals to shelter and print animal shelter state
         acceptAnimalsToShelter(animals);
         printAnimalsList();
         printFreePlacesNo();
-    }
-
-    List<Animal> readAnimalsFromFile(String filePath) {
-        List<Animal> animals = new LinkedList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                animals.add(new Animal(line));
-            }
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-        return animals;
     }
 
     private void acceptAnimalsToShelter(List<Animal> animals) {

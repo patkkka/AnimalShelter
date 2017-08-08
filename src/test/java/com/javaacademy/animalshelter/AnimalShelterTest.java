@@ -43,7 +43,7 @@ public class AnimalShelterTest {
     @Test
     public void shouldAcceptAnimal() {
         //given
-        Animal dogBaki = new Animal("Baki");
+        Animal dogBaki = new Animal("pies", "Baki");
         //when
         animalShelter.acceptAnimal(dogBaki);
         //then
@@ -64,7 +64,7 @@ public class AnimalShelterTest {
     public List<Animal> createAnimalList(String[] names) {
         List<Animal> animals = Arrays
                 .stream(names)
-                .map(Animal::new)
+                .map(name -> new Animal("pies", name))
                 .collect(Collectors.toList());
         return animals;
     }
