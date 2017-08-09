@@ -21,10 +21,10 @@ public class AnimalListReaderTest {
         //when
         List<Animal> animals = AnimalListReader.readAnimalsFromFile(path);
         //then
+        assertEquals(animals.size(), animalsNoInFile);
         assertTrue(animals.contains(new Animal("pies", "Baki")));
         assertTrue(animals.contains(new Animal("pies", "Balto")));
         assertTrue(animals.contains(new Animal("zimorodek", "Kuba")));
-        assertEquals(animals.size(), animalsNoInFile);
     }
 
     @Test
