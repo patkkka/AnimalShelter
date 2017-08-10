@@ -1,6 +1,7 @@
 package com.javaacademy.animalshelter.io;
 
 import com.javaacademy.animalshelter.Animal;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.net.URISyntaxException;
@@ -11,7 +12,13 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class AnimalListReaderTest {
+public class TxtAnimalListReaderTest {
+    TxtAnimalListReader txtAnimalListReader;
+
+    @BeforeClass
+    public void setUp() {
+        txtAnimalListReader = new TxtAnimalListReader();
+    }
 
     @Test
     public void shouldReadAnimalsFromFile() throws URISyntaxException {
@@ -19,7 +26,7 @@ public class AnimalListReaderTest {
         Path path = Paths.get(ClassLoader.getSystemResource("list_of_animals").toURI()); //file with 10 animals
         int animalsNoInFile = 10;
         //when
-        List<Animal> animals = AnimalListReader.readAnimalsFromFile(path);
+        List<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
         //then
         assertEquals(animals.size(), animalsNoInFile);
         assertTrue(animals.contains(new Animal("pies", "Baki")));
@@ -32,7 +39,7 @@ public class AnimalListReaderTest {
         //given
         Path path = Paths.get(ClassLoader.getSystemResource("list_of_animals_empty").toURI());
         //when
-        List<Animal> animals = AnimalListReader.readAnimalsFromFile(path);
+        List<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
         //then
         assertTrue(animals.isEmpty());
     }

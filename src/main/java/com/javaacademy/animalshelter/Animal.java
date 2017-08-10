@@ -3,10 +3,18 @@ package com.javaacademy.animalshelter;
 public class Animal {
     private final String breed;
     private final String name;
+    private String desc;
 
     public Animal(String breed, String name) {
         this.breed = breed;
         this.name = name;
+        this.desc = "";
+    }
+
+    public Animal(String breed, String name, String desc) {
+        this.breed = breed;
+        this.name = name;
+        this.desc = desc;
     }
 
     @Override

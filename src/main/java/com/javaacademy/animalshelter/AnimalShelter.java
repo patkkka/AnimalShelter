@@ -3,19 +3,19 @@ package com.javaacademy.animalshelter;
 import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
 import com.javaacademy.animalshelter.io.AnimalShelterStatePrinter;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AnimalShelter {
     final int capacity;
-    List<Animal> animals;
+    Set<Animal> animals;
 
     public AnimalShelter(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Animal shelter capacity cannot be less or equal to 0");
         }
         this.capacity = capacity;
-        animals = new LinkedList<>();
+        animals = new HashSet<>();
     }
 
     public void acceptAnimal(Animal animal) {

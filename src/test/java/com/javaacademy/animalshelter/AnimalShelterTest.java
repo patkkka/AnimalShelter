@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
@@ -32,7 +32,7 @@ public class AnimalShelterTest {
     @Test
     public void shouldCalculateFreePlacesNoWhenSomeAnimalsInsideShelter() {
         //given
-        List<Animal> animals = createAnimalList(new String[]{"Baki", "Mruczek"});
+        Set<Animal> animals = createAnimalSet(new String[]{"Baki", "Mruczek"});
         //when
         animals.forEach(animalShelter::acceptAnimal);
         int freePlacesNo = animalShelter.calculateFreePlacesNo();
@@ -54,18 +54,18 @@ public class AnimalShelterTest {
     @Test(expectedExceptions = AnimalShelterFullException.class)
     public void shouldNotAcceptAnimalWhenShelterIsFull() {
         //given
-        List<Animal> animals = createAnimalList(new String[]{"Baki", "Pola", "Rudolf", "Futrzak"});
+        Set<Animal> animals = createAnimalSet(new String[]{"Baki", "Pola", "Rudolf", "Futrzak"});
         //when
         //add 4 animals when shelter capacity is 3
         animals.forEach(animalShelter::acceptAnimal);
         //then
     }
 
-    public List<Animal> createAnimalList(String[] names) {
-        List<Animal> animals = Arrays
+    public Set<Animal> createAnimalSet(String[] names) {
+        Set<Animal> animals = Arrays
                 .stream(names)
                 .map(name -> new Animal("pies", name))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         return animals;
     }
 }
