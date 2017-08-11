@@ -18,8 +18,10 @@
         <!--Reporting plugins versions-->
         <findbugs.version>3.0.4</findbugs.version>
         <checkstyle.version>2.17</checkstyle.version>
-        <!--Maven plugins versions-->
         <jacoco.version>0.7.9</jacoco.version>
+        <jxr.version>2.5</jxr.version>
+        <sonar.version>3.3.0.603</sonar.version>
+        <!--Maven plugins versions-->
         <clean.plugin.version>3.0.0</clean.plugin.version>
         <compiler.plugin.version>3.6.1</compiler.plugin.version>
         <deploy.plugin.version>2.8.2</deploy.plugin.version>
@@ -29,6 +31,9 @@
         <site.plugin.version>3.6</site.plugin.version>
         <surefire.plugin.version>2.20</surefire.plugin.version>
         <enforcer.plugin.version>1.4.1</enforcer.plugin.version>
+        <!--Sonar properties-->
+        <sonar.pluginClass>org.sonar.plugins.java.JavaPlugin</sonar.pluginClass>
+        <sonar.pluginName>Java</sonar.pluginName>
     </properties>
 
     <dependencies>
@@ -52,6 +57,11 @@
 
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${jxr.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
@@ -89,6 +99,11 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.version}</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
