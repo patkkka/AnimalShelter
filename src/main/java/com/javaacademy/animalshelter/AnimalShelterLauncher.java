@@ -1,83 +1,77 @@
 package com.javaacademy.animalshelter;
 
 import com.javaacademy.animalshelter.exceptions.AnimalShelterFullException;
-import com.javaacademy.animalshelter.io.AnimalListReader;
-import com.javaacademy.animalshelter.io.AnimalShelterStatePrinter;
-import com.javaacademy.animalshelter.io.TxtAnimalListReader;
+import com.javaacademy.animalshelter.fileio.*;
+import com.javaacademy.animalshelter.userio.AnimalShelterParametersParser;
+import com.javaacademy.animalshelter.userio.AnimalShelterStatePrinter;
 import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Collection;
 
 public class AnimalShelterLauncher {
-    AnimalShelter animalShelter;
+    public static final Path ANIMALS_FILE_PATH = Paths.get("src/main/resources/list_of_animals");
     final static Logger logger = Logger.getLogger(AnimalShelterLauncher.class);
+    AnimalShelter animalShelter;
+    AnimalShelterParametersParser parametersParser;
 
-    public AnimalShelterLauncher(AnimalShelter animalShelter) {
-        this.animalShelter = animalShelter;
+    public AnimalShelterLauncher() {
+        this.parametersParser = new AnimalShelterParametersParser();
     }
 
     public static void main(String[] args) {
-        Options options = createCmdOptions();
-        CommandLineParser parser = new DefaultParser();
+        AnimalShelterLauncher launcher = new AnimalShelterLauncher();
         try {
-            CommandLine cmd = parser.parse(options, args);
-            int shelterCapacity = parseShelterCapacity(cmd);
-
-            AnimalShelter animalShelter = new AnimalShelter(shelterCapacity);
-            AnimalShelterLauncher launcher = new AnimalShelterLauncher(animalShelter);
-            launcher.startAnimalShelter(cmd);
+            launcher.parseAnimalShelterParameters(args);
+            launcher.startAnimalShelter();
         } catch (ParseException | IllegalArgumentException e) {
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp( "animalshelter", options );
-        } catch (AnimalShelterFullException e) {
-            logger.error(e.getMessage(), e);
+            launcher.printHelpOptions();
         }
     }
 
-    private static Path parseAnimalsListFilePath(CommandLine cmd) {
-        Path animalsListPath = Paths.get("src/main/resources/list_of_animals");
-
-        return animalsListPath;
+    private void parseAnimalShelterParameters(String[] args) throws ParseException {
+        parametersParser.parseArgs(args);
     }
 
-    private static Options createCmdOptions() {
-        Options options = new Options();
-        options.addOption("c", "capacity", true, "animal shelter capacity - positive integer number");
-        options.addOption("f", "filepath", true, "path to the file with animals list");
-        options.addOption("p", "printanimals", false, "prints animals in shelter");
-        options.addOption("q", "freeplaces", false, "prints how many free places are in the shelter");
-        return options;
+    private void startAnimalShelter() throws IllegalArgumentException {
+        createNewAnimalShelter();
+        acceptAnimalsFromFile();
+        printAnimalsList();
+        printFreePlacesNo();
+        storeAnimalsToFile();
     }
 
-    private static int parseShelterCapacity(CommandLine cmd) {
-        int shelterCapacity = 0;
-        if (cmd.hasOption("c")) {
-             shelterCapacity = Integer.parseInt(cmd.getOptionValue("c"));
-        }
-        return shelterCapacity;
+    private void printHelpOptions() {
+        parametersParser.printHelpOptions();
     }
 
-    private void startAnimalShelter(CommandLine cmd) {
+    private void createNewAnimalShelter() {
         AnimalShelterStatePrinter.printWelcomeMessage();
-        Path animalsListPath = parseAnimalsListFilePath(cmd);
-        //get animals from file
-        AnimalListReader animalListReader = new TxtAnimalListReader();
-        List<Animal> animals = animalListReader.readAnimalsFromFile(animalsListPath);
-        //accept animals to shelter
+        animalShelter = new AnimalShelter(parametersParser.parseShelterCapacity());
+    }
+
+    private void acceptAnimalsFromFile() {
+        Path animalsListPath = parametersParser.parseAnimalsListFilePath();
+        Collection<Animal> animals = readAnimalsFromFile(animalsListPath);
         acceptAnimalsToShelter(animals);
-        //print information
-        if (cmd.hasOption("p")) {
-            printAnimalsList();
-        }
-        if (cmd.hasOption("q")) {
-            printFreePlacesNo();
+    }
+
+    private void storeAnimalsToFile() {
+        Path animalsListPath = parametersParser.parseAnimalsListFilePath();
+        if (!animalsListPath.equals(ANIMALS_FILE_PATH)) {
+            AnimalListWriter animalListWriter = new TxtAnimalListWriter();
+            animalListWriter.writeAnimalsToFile(animalShelter.getAnimals(), ANIMALS_FILE_PATH);
         }
     }
 
-    private void acceptAnimalsToShelter(List<Animal> animals) {
+    private Collection<Animal> readAnimalsFromFile(Path animalsListPath) {
+        AnimalListReader animalListReader = new TxtAnimalListReader();
+        return animalListReader.readAnimalsFromFile(animalsListPath);
+    }
+
+    private void acceptAnimalsToShelter(Collection<Animal> animals) {
         try {
             animals.forEach(animalShelter::acceptAnimal);
         } catch (AnimalShelterFullException e) {
@@ -86,11 +80,14 @@ public class AnimalShelterLauncher {
     }
 
     private void printAnimalsList() {
-        animalShelter.printAnimalsList();
+        if (parametersParser.isPrintAnimalsListOptionEnabled()) {
+            animalShelter.printAnimalsList();
+        }
     }
 
     private void printFreePlacesNo() {
-        animalShelter.printFreePlacesNo();
+        if (parametersParser.isPrintFreePlacesOptionEnabled()) {
+            animalShelter.printFreePlacesNo();
+        }
     }
-
 }

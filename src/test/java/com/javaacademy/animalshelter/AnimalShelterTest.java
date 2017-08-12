@@ -21,7 +21,7 @@ public class AnimalShelterTest {
     }
 
     @Test
-    public void shouldReturnShelterCapacityForFreePlacesNoCalc() {
+    public void freePlacesNoShouldBeEqualToShelterCapacityWhenNoAnimalsInside() {
         //given
         //when
         int freePlacesNo = animalShelter.calculateFreePlacesNo();
