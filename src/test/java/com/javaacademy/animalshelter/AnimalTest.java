@@ -56,4 +56,18 @@ public class AnimalTest {
         //then
         assertEquals(animal1.hashCode(), animal2.hashCode());
     }
+
+    @Test
+    public void shouldParseAnimalToTxt() {
+        //given
+        String breed = "pies";
+        String name = "Pola";
+        String desc = "5-letnia suczka";
+        String separator = ";";
+        Animal animal = new Animal(breed, name, desc);
+        //when
+        String animalAsTxt = animal.parseAnimalToTxt();
+        //then
+        assertEquals(animalAsTxt, breed + separator + name + separator + desc + System.lineSeparator());
+    }
 }

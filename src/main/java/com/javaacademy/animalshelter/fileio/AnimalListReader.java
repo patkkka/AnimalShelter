@@ -1,13 +1,13 @@
-package com.javaacademy.animalshelter.io;
+package com.javaacademy.animalshelter.fileio;
 
 import com.javaacademy.animalshelter.Animal;
 
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 
 public abstract class AnimalListReader {
 
-    public abstract List<Animal> readAnimalsFromFile(Path filePath);
+    public abstract Collection<Animal> readAnimalsFromFile(Path filePath);
 
     protected static Animal parseAnimal(String animalLine) {
         String[] words = animalLine.split(";");

@@ -1,4 +1,4 @@
-package com.javaacademy.animalshelter.io;
+package com.javaacademy.animalshelter.fileio;
 
 import com.javaacademy.animalshelter.Animal;
 import org.testng.annotations.BeforeClass;
@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Collection;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -26,7 +26,7 @@ public class TxtAnimalListReaderTest {
         Path path = Paths.get(ClassLoader.getSystemResource("list_of_animals").toURI()); //file with 10 animals
         int animalsNoInFile = 10;
         //when
-        List<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
+        Collection<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
         //then
         assertEquals(animals.size(), animalsNoInFile);
         assertTrue(animals.contains(new Animal("pies", "Baki")));
@@ -39,7 +39,7 @@ public class TxtAnimalListReaderTest {
         //given
         Path path = Paths.get(ClassLoader.getSystemResource("list_of_animals_empty").toURI());
         //when
-        List<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
+        Collection<Animal> animals = txtAnimalListReader.readAnimalsFromFile(path);
         //then
         assertTrue(animals.isEmpty());
     }

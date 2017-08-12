@@ -1,31 +1,28 @@
-package com.javaacademy.animalshelter.io;
+package com.javaacademy.animalshelter.fileio;
 
 import com.javaacademy.animalshelter.Animal;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Patka on 2017-08-09.
- */
 public class TxtAnimalListReader extends AnimalListReader{
     final static Logger logger = Logger.getLogger(AnimalListReader.class);
 
     @Override
-    public List<Animal> readAnimalsFromFile(Path filePath) {
-        List<Animal> animals = new LinkedList<>();
-        try (BufferedReader br = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                Animal animal = parseAnimal(line);
+    public Collection<Animal> readAnimalsFromFile(Path filePath) {
+        Collection<Animal> animals = new LinkedList<>();
+        try {
+            List<String> animalsList = Files.readAllLines(filePath, StandardCharsets.UTF_8);
+            animalsList.forEach((animalLineString) -> {
+                Animal animal = parseAnimal(animalLineString);
                 animals.add(animal);
-            }
+            });
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
